@@ -14,11 +14,21 @@ const CalorieCounter = props => {
     const [food, setFood] = useState("air")
     const [foods, setFoods] = useState([])
     const [calPerItem, setCalPerItem] = useState([0])
+    const [ingredient, setIngredient] = useState({
+        name: '',
+        caloriesPerGram: ''
+    })
 
     const getAllFoods = async (food) => {
         const response = await axios.get(`http://localhost:3001/api/foods`)
             .then(response => setFoods(response.data))
     }
+    const postFood = async (ingredient) => {
+        const newFood = { ...ingredient }
+        const response = await axios.post(`http://localhost:3001/api/foods`, newFood)
+            .then(response => console.log("posted!"))
+    }
+
     foods.sort((a, b) => a.name.localeCompare(b.name))
 
     useEffect(() => {
@@ -29,7 +39,6 @@ const CalorieCounter = props => {
     }
 
     const count = useSelector((state) => state.counter.value)
-    const i = useSelector((state) => state.counter.interator)
     const list = useSelector((state) => state.counter.ingredients)
     const itemCalories = useSelector((state) => state.counter.itemCal)
 
@@ -39,16 +48,23 @@ const CalorieCounter = props => {
 
     const converter = (grams) => {
         const calorie = + ((grams * calories).toFixed(2))
-        setCalories(calorie) 
+        setCalories(calorie)
         addItemValue(calorie)
 
     }
     const handleChange = (e) => {
         setGrams(e.target.value)
     }
+    const handleIngredientsChange = (e) => {
+        setIngredient({ ...ingredient, [e.target.name]: e.target.value })
+        console.log(ingredient)
+    }
     const handleSubmit = async (e) => {
         grams ?
-        converter(grams) : alert("can't eat nothing baby")
+            converter(grams) : alert("can't eat nothing baby")
+    }
+    const handleSubmitFood = e => {
+        postFood(ingredient)
     }
     const calorieCount = (calPerGram) => {
         setCalories(calPerGram)
@@ -86,12 +102,17 @@ const CalorieCounter = props => {
             </div>
             <div className="input">
                 <div>
-                    <input onChange={handleChange} placeholder={"number of grams"}></input>
+                    <div className="inputs">
+                        <div className="calorie-calculator">
+                            <input onChange={handleChange} placeholder={"number of grams"}></input>
+                            <div>
+                                <button type={"submit"} onClick={handleSubmit} > calculate</button>
+                            </div>
+                            {message}
+                        </div>
+
+                    </div>
                 </div>
-                <div>
-                    <button type={"submit"} onClick={handleSubmit} > calculate</button>
-                </div>
-                {message}
                 <div className="info">
                     <div className="totalCal">
                         <button
@@ -107,7 +128,7 @@ const CalorieCounter = props => {
                             Remove last item
                         </button>
                         <div className="infoBox">
-                            <span>{`${transformedCount} calories in your meal`}</span><br/>
+                            <span>{`${transformedCount} calories in your meal`}</span><br />
                             <span>{`${perServing} calories per serving`}</span><br />
                         </div>
 
@@ -118,6 +139,20 @@ const CalorieCounter = props => {
                             <ItemList name={item} calories={itemCalories[index]} key={`item-${item}`} />
                         ))}</div>
                 </div>
+            </div>
+            <div className="datbase-ui-input">
+                <input onChange={handleIngredientsChange}
+                    type='text'
+                    placeholder={"name"}
+                    name='name'
+                    value={ingredient.name} />
+                <input onChange={handleIngredientsChange}
+                    value={ingredient.caloriesPerGram}
+                    placeholder={"calories per 100 gram"}
+                    name="caloriesPerGram"
+                    type="integer"
+                />
+                <button onClick={handleSubmitFood}>Add ingredient to database</button>
             </div>
 
         </>

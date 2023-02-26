@@ -27,10 +27,19 @@ span{
 }
 input{
     width: 70%;
+    height: 1.5em;
     background-color: beige;    
 }
 .input{
     display: block;
+}
+.inputs{
+    display: flex;
+    justify-content: space-between;
+    margin: 1em;
+}
+.calorie-calculator{
+    width: 20em;
 }
 .info{
     display: flex;
