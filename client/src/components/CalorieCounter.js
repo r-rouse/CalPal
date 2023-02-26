@@ -80,6 +80,7 @@ const CalorieCounter = props => {
                         caloriesPerGram={food.caloriesPerGram}
                         calorieCount={calorieCount}
                         foodName={foodName}
+                        key={`item-${food.name}`}
                     />
                 ))}
             </div>
@@ -114,7 +115,7 @@ const CalorieCounter = props => {
                     <div className="list">
                         Ingredients List:
                         {list.map((item, index) => (
-                            <ItemList name={item} calories={itemCalories[index]} />
+                            <ItemList name={item} calories={itemCalories[index]} key={`item-${item}`} />
                         ))}</div>
                 </div>
             </div>
