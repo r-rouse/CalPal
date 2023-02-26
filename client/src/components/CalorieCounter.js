@@ -1,0 +1,127 @@
+import React, { useState, useEffect } from "react";
+import axios from 'axios'
+import FoodCard from "./FoodCard";
+import "./CalorieCounter.css"
+import { useSelector, useDispatch } from 'react-redux'
+import { decrementByAmount, incrementByAmount, incrementByItem, decrementByItem, incrementByItemCal, increment } from '../counterSlice'
+import { ItemList } from "./ItemList";
+
+
+
+const CalorieCounter = props => {
+    const [calories, setCalories] = useState(0)
+    const [grams, setGrams] = useState()
+    const [food, setFood] = useState("air")
+    const [foods, setFoods] = useState([])
+    const [calPerItem, setCalPerItem] = useState([0])
+
+    const getAllFoods = async (food) => {
+        const response = await axios.get(`http://localhost:3001/api/foods`)
+            .then(response => setFoods(response.data))
+    }
+    foods.sort((a, b) => a.name.localeCompare(b.name))
+
+    useEffect(() => {
+        getAllFoods()
+    }, [])
+    const addItemValue = calories => {
+        calPerItem.push(calories)
+    }
+
+    const count = useSelector((state) => state.counter.value)
+    const i = useSelector((state) => state.counter.interator)
+    const list = useSelector((state) => state.counter.ingredients)
+    const itemCalories = useSelector((state) => state.counter.itemCal)
+
+    const transformedCount = + ((count).toFixed(2))
+    const dispatch = useDispatch()
+
+
+    const converter = (grams) => {
+        const calorie = + ((grams * calories).toFixed(2))
+        setCalories(calorie) 
+        addItemValue(calorie)
+
+    }
+    const handleChange = (e) => {
+        setGrams(e.target.value)
+    }
+    const handleSubmit = async (e) => {
+        grams ?
+        converter(grams) : alert("can't eat nothing baby")
+    }
+    const calorieCount = (calPerGram) => {
+        setCalories(calPerGram)
+    }
+    const foodName = (name) => {
+        setFood(name)
+    }
+    const setCaloriesAndIngridients = () => {
+        dispatch(incrementByAmount(calories))
+        dispatch(incrementByItem(food))
+        dispatch(incrementByItemCal(calories))
+        dispatch(increment())
+    }
+    const removeCaloriesAndIngridients = () => {
+        dispatch(decrementByAmount(calories))
+        dispatch(decrementByItem(food))
+    }
+    const message = calories < 2 ? `${calories} calories per gram of ${food}` :
+        `${calories} Calories of ${food}`
+
+    const perServing = ((count / 4).toFixed(2))
+
+    return (
+        <>
+            <div className="card-grid">
+                {foods.map((food) => (
+                    <FoodCard
+                        name={food.name}
+                        caloriesPerGram={food.caloriesPerGram}
+                        calorieCount={calorieCount}
+                        foodName={foodName}
+                    />
+                ))}
+            </div>
+            <div className="input">
+                <div>
+                    <input onChange={handleChange} placeholder={"number of grams"}></input>
+                </div>
+                <div>
+                    <button type={"submit"} onClick={handleSubmit} > calculate</button>
+                </div>
+                {message}
+                <div className="info">
+                    <div className="totalCal">
+                        <button
+                            aria-label="Increment value"
+                            onClick={setCaloriesAndIngridients}
+                        >
+                            Add to total
+                        </button>
+                        <button
+                            aria-label="Decrement value"
+                            onClick={removeCaloriesAndIngridients}
+                        >
+                            Remove last item
+                        </button>
+                        <div className="infoBox">
+                            <span>{`${transformedCount} calories in your meal`}</span><br/>
+                            <span>{`${perServing} calories per serving`}</span><br />
+                        </div>
+
+                    </div>
+                    <div className="list">
+                        Ingredients List:
+                        {list.map((item, index) => (
+                            <ItemList name={item} calories={itemCalories[index]} />
+                        ))}</div>
+                </div>
+            </div>
+
+        </>
+    )
+}
+
+
+export default CalorieCounter
