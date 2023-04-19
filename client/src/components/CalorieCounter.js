@@ -18,6 +18,7 @@ const CalorieCounter = props => {
         name: '',
         caloriesPerGram: ''
     })
+    const [servingSize, setServingSize] = useState(4)
 
     const getAllFoods = async (food) => {
         const response = await axios.get(`http://localhost:3001/api/foods`)
@@ -59,6 +60,7 @@ const CalorieCounter = props => {
         setIngredient({ ...ingredient, [e.target.name]: e.target.value })
         console.log(ingredient)
     }
+
     const handleSubmit = async (e) => {
         grams ?
             converter(grams) : alert("can't eat nothing baby")
@@ -85,7 +87,7 @@ const CalorieCounter = props => {
     const message = calories < 2 ? `${calories} calories per gram of ${food}` :
         `${calories} Calories of ${food}`
 
-    const perServing = ((count / 4).toFixed(2))
+    const perServing = ((count / servingSize).toFixed(2))
 
     return (
         <>
