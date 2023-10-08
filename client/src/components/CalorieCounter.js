@@ -5,6 +5,7 @@ import "./CalorieCounter.css"
 import { useSelector, useDispatch } from 'react-redux'
 import { decrementByAmount, incrementByAmount, incrementByItem, decrementByItem, incrementByItemCal, increment } from '../counterSlice'
 import { ItemList } from "./ItemList";
+import ingredients from "../constants/ingredients";
 
 
 
@@ -20,24 +21,24 @@ const CalorieCounter = props => {
     })
     const [servingSize, setServingSize] = useState(4)
 
-    const getAllFoods = async (food) => {
-        const response = await axios.get(`http://localhost:3001/api/foods`)
-            .then(response => setFoods(response.data))
-    }
-    const postFood = async (ingredient) => {
-        const newFood = { ...ingredient }
-        const response = await axios.post(`http://localhost:3001/api/foods`, newFood)
-            .then(response => console.log("posted!"))
-    }
-
-    foods.sort((a, b) => a.name.localeCompare(b.name))
+    // const getAllFoods = async (food) => {
+    //     const response = await axios.get(`http://localhost:3001/api/foods`)
+    //         .then(response => setFoods(response.data))
+    // }
+    // const postFood = async (ingredient) => {
+    //     const newFood = { ...ingredient }
+    //     const response = await axios.post(`http://localhost:3001/api/foods`, newFood)
+    //         .then(response => console.log("posted!"))
+    // }
 
     useEffect(() => {
-        getAllFoods()
+        // getAllFoods()
+        setFoods(ingredients)
     }, [])
     const addItemValue = calories => {
         calPerItem.push(calories)
     }
+    foods.sort((a, b) => a.name.localeCompare(b.name))
 
     const count = useSelector((state) => state.counter.value)
     const list = useSelector((state) => state.counter.ingredients)
@@ -65,9 +66,9 @@ const CalorieCounter = props => {
         grams ?
             converter(grams) : alert("can't eat nothing baby")
     }
-    const handleSubmitFood = e => {
-        postFood(ingredient)
-    }
+    // const handleSubmitFood = e => {
+    //     postFood(ingredient)
+    // }
     const calorieCount = (calPerGram) => {
         setCalories(calPerGram)
     }
@@ -95,7 +96,7 @@ const CalorieCounter = props => {
                 {foods.map((food) => (
                     <FoodCard
                         name={food.name}
-                        caloriesPerGram={food.caloriesPerGram}
+                        caloriesPerGram={food.calories}
                         calorieCount={calorieCount}
                         foodName={foodName}
                         key={`item-${food.name}`}
@@ -142,7 +143,7 @@ const CalorieCounter = props => {
                         ))}</div>
                 </div>
             </div>
-            <div className="datbase-ui-input">
+            {/* <div className="datbase-ui-input">
                 <input onChange={handleIngredientsChange}
                     type='text'
                     placeholder={"name"}
@@ -155,7 +156,7 @@ const CalorieCounter = props => {
                     type="integer"
                 />
                 <button onClick={handleSubmitFood}>Add ingredient to database</button>
-            </div>
+            </div> */}
 
         </>
     )
