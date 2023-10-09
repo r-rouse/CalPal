@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import axios from 'axios'
 import FoodCard from "./FoodCard";
 import "./CalorieCounter.css"
 import { useSelector, useDispatch } from 'react-redux'
@@ -14,12 +13,12 @@ const CalorieCounter = props => {
     const [grams, setGrams] = useState()
     const [food, setFood] = useState("air")
     const [foods, setFoods] = useState([])
-    const [calPerItem, setCalPerItem] = useState([0])
-    const [ingredient, setIngredient] = useState({
-        name: '',
-        caloriesPerGram: ''
-    })
-    const [servingSize, setServingSize] = useState(4)
+    const [calPerItem, ] = useState([0])
+    // const [ingredient, setIngredient] = useState({
+    //     name: '',
+    //     caloriesPerGram: ''
+    // })
+    const [servingSize, ] = useState(4)
 
     // const getAllFoods = async (food) => {
     //     const response = await axios.get(`http://localhost:3001/api/foods`)
@@ -57,10 +56,10 @@ const CalorieCounter = props => {
     const handleChange = (e) => {
         setGrams(e.target.value)
     }
-    const handleIngredientsChange = (e) => {
-        setIngredient({ ...ingredient, [e.target.name]: e.target.value })
-        console.log(ingredient)
-    }
+    // const handleIngredientsChange = (e) => {
+    //     setIngredient({ ...ingredient, [e.target.name]: e.target.value })
+    //     console.log(ingredient)
+    // }
 
     const handleSubmit = async (e) => {
         grams ?
