@@ -1,7 +1,8 @@
+// routes/AppRouter.js
+const express = require('express');
+const FoodssRouter = require('./FoodsRouter');
+const router = express.Router();
 
-const Router = require('express').Router();
-const FoodssRouter = require('./FoodsRouter')
+router.use('/foods', FoodssRouter);
 
-Router.use('/foods', FoodssRouter);
-
-module.exports = Router;
+module.exports = router;
