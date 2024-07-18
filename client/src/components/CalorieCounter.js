@@ -5,8 +5,9 @@ import { useSelector, useDispatch } from 'react-redux'
 import { decrementByAmount, incrementByAmount, incrementByItem, decrementByItem, incrementByItemCal, increment } from '../counterSlice'
 import { ItemList } from "./ItemList";
 import ingredients from "../constants/ingredients";
+import axios from "axios";
 
-
+const apiUrl = process.env.REACT_APP_API_URL;
 
 const CalorieCounter = props => {
     const [calories, setCalories] = useState(0)
@@ -20,19 +21,20 @@ const CalorieCounter = props => {
     // })
     const [servingSize, ] = useState(4)
 
-    // const getAllFoods = async (food) => {
-    //     const response = await axios.get(`http://localhost:3001/api/foods`)
-    //         .then(response => setFoods(response.data))
-    // }
-    // const postFood = async (ingredient) => {
-    //     const newFood = { ...ingredient }
-    //     const response = await axios.post(`http://localhost:3001/api/foods`, newFood)
-    //         .then(response => console.log("posted!"))
-    // }
+    const getAllFoods = async (food) => {
+        const response = await axios.get(`${apiUrl}api/foods`)
+            // .then(response => setFoods(response.data))
+            console.log(response.data)
+    }
+    const postFood = async (ingredient) => {
+        const newFood = { ...ingredient }
+        const response = await axios.post(`http://localhost:3001/api/foods`, newFood)
+            .then(response => console.log("posted!"))
+    }
 
     useEffect(() => {
-        // getAllFoods()
-        setFoods(ingredients)
+        getAllFoods()
+        // setFoods(ingredients)
     }, [])
     const addItemValue = calories => {
         calPerItem.push(calories)
