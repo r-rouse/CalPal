@@ -15,5 +15,4 @@ router.post('/', CreateFood);
 router.put('/:id', UpdateFoodDetails);
 router.delete('/:id', DeleteFood);
 
-
 module.exports = router;
