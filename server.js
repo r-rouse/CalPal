@@ -8,11 +8,7 @@ const { sequelize } = require('./models');
 const app = express();
 const PORT = process.env.PORT || 3001;
 
-app.use(cors({
-  origin: ['https://wholefoodcalories.com/', 'http://localhost:3002'],
-  methods: 'GET,POST,PUT,DELETE',
-  allowedHeaders: 'Content-Type,Authorization'
-}));
+app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
