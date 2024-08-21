@@ -72,6 +72,7 @@ const Login = async (req, res) => {
 
 // Get user profile (protected route)
 const GetProfile = async (req, res) => {
+    const { user_id} = req.body
     try {
         const user = await user.findByPk(req.user.userId, {
             attributes: ['user_id', 'username', 'createdAt', 'updatedAt']
@@ -112,17 +113,19 @@ const UpdateProfile = async (req, res) => {
 // Delete user account
 const DeleteUser = async (req, res) => {
     try {
-        const user = await User.findByPk(req.user.userId);
-        if (!user) {
+        const userId = req.params.id; // Assuming the ID is passed in the URL
+        const User = await user.findByPk(userId);
+        if (!User) {
             return res.status(404).json({ message: 'User not found' });
         }
 
-        await user.destroy();
-        res.json({ message: 'User deleted successfully' });
+        await User.destroy();
+        return res.json({ message: 'User deleted successfully' });
     } catch (err) {
-        res.status(500).json({ message: 'Server error', error: err.message });
+        return res.status(500).json({ message: 'Server error', error: err.message });
     }
 };
+
 
 module.exports = {
     GetProfile,

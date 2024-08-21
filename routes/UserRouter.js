@@ -1,6 +1,6 @@
 // routes/userRoutes.js
 const express = require('express');
-const {GetProfile, GetAllUsers, UpdateProfile, Register, Login} = require('../controllers/UserController');
+const {GetProfile, GetAllUsers, UpdateProfile, Register, Login, DeleteUser} = require('../controllers/UserController');
 const authenticate = require('../middleware/authMiddleware');
 const router = express.Router();
 
@@ -12,6 +12,6 @@ router.post('/login', Login);
 router.get('/profile', GetProfile);
 router.get('/', GetAllUsers);
 // router.put('/profile', authenticate, UpdateProfiledateProfile);
-// router.delete('/delete', authenticate, userController.deleteUser);
+router.delete('/delete/:id', DeleteUser);
 
 module.exports = router;
