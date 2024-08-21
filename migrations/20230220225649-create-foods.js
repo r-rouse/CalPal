@@ -12,7 +12,7 @@ module.exports = {
         type: Sequelize.STRING
       },
       caloriesPerGram: {
-        type: Sequelize.INTEGER
+        type: Sequelize.FLOAT
       },
       carbs: {
         type: Sequelize.INTEGER
