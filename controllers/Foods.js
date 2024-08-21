@@ -20,7 +20,7 @@ const GetFoodById = async (req, res) => {
       throw error;
     }
   };
-  const CreateFood = async (req, res) => {
+const CreateFood = async (req, res) => {
     try {
         let newFood = await foods.create(req.body);
         res.status(201).send(newFood);  // Use status 201 for successful creation
