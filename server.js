@@ -9,7 +9,9 @@ const app = express();
 const PORT = process.env.PORT || 3001;
 
 app.use(cors({
-  origin: 'https://wholefoodcalories.com/' // Replace with your client's domain
+  origin: 'https://wholefoodcalories.com',
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  credentials: true, // If your requests include credentials like cookies or HTTP authentication
 }));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
