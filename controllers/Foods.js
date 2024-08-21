@@ -20,14 +20,14 @@ const GetFoodById = async (req, res) => {
       throw error;
     }
   };
-const CreateFood = async (req, res) => {
+  const CreateFood = async (req, res) => {
     try {
-      let newFood = await foods.create(req.body);
-      res.send(newFood);
+        let newFood = await foods.create(req.body);
+        res.status(201).send(newFood);  // Use status 201 for successful creation
     } catch (error) {
-      throw error;
+        res.status(500).send({ error: 'An error occurred while creating the food item.' });
     }
-  };
+};
 
   const UpdateFoodDetails = async (req, res) => {
     try {
