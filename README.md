@@ -1,5 +1,6 @@
 # CalPal
 Custom Calorie Counter
+
 [Deployed site](https://wholefoodcalories.com/)
 
 ![Screen Shot 2023-06-07 at 5 36 58 PM](https://github.com/r-rouse/CalPal/assets/93789562/a3f34dee-f3eb-48d3-9def-4bd5f3199156)
